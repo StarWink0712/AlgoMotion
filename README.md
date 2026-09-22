@@ -85,8 +85,21 @@ npm start
 - “我的题库”保存在浏览器本地，清理浏览器数据前记得先导出备份。
 - 生成的 Python 代码在本地受限容器中运行，服务默认只监听 `127.0.0.1`。
 
+## 参与贡献
+
+如果你在使用过程中发现问题，或者对动画效果、交互体验、性能和题目实现有优化建议，欢迎提交 [Issue](https://github.com/StarWink0712/AlgoMotion/issues)。
+
+也欢迎直接提交 Pull Request，例如：
+
+- 修复 Bug 或改进现有算法演示
+- 优化动画、界面和操作体验
+- 补充新的题目、测试或参考实现
+- 改进文档、安装流程和跨平台支持
+
+准备提交代码前，请先阅读[贡献指南](CONTRIBUTING.md)，并运行 `npm run check` 确认类型检查和测试通过。
+
 ## 许可证
 
 项目使用 [MIT License](LICENSE)。字体等第三方资源的许可证见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
-项目提供题目简述、实现思路和原题链接，与 LeetCode / 力扣没有官方关联。欢迎提交 Issue 或 Pull Request。
+项目提供题目简述、实现思路和原题链接，与 LeetCode / 力扣没有官方关联。
