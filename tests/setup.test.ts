@@ -77,6 +77,12 @@ describe('CLI-only setup (MOCK installers/VM/engines; no actual installation)', 
     expect(await setup(parseOptions(['--install-docker']), host)).toBe(0);
     expect(state.started).toBe(false); expect(commands().join(' ')).not.toMatch(/\bbrew\b|winget|colima.*start|context use/);
   });
+  it('uses the injected platform path rules instead of the CI runner path rules', async () => {
+    const { host, commands } = fixture('win32', true, true);
+    host.root = 'C:\\project';
+    expect(await setup(parseOptions(['--build-only']), host)).toBe(0);
+    expect(commands()).toContain('docker.exe build -t algomotion-python:1 C:\\project\\sandbox');
+  });
   it('starts an existing managed profile without installing, resetting VM size or selecting a global context', async () => {
     const { host, state, commands } = fixture('darwin', true, false, true);
     expect(await setup(parseOptions([]), host)).toBe(0); expect(state.started).toBe(true);

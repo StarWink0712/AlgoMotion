@@ -1,7 +1,7 @@
 import { spawn } from 'node:child_process';
 import { constants, existsSync } from 'node:fs';
 import { copyFile, chmod, readFile } from 'node:fs/promises';
-import { dirname, isAbsolute, join } from 'node:path';
+import { join, posix, win32 } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { colimaConfigPath, colimaProfile, dockerConnection, resolveColimaBinary } from '../../server/generation/docker-binary.mjs';
 
@@ -81,6 +81,9 @@ export async function warmRuntime(host = defaultHost()) {
 }
 export async function setup(options, host = defaultHost()) {
   if (!validNode(host.version)) throw new Error('需要 Node.js 22.12+（含 npm），请先升级 Node 后重新运行。');
+  // Tests can simulate another OS, so derive paths from the injected platform
+  // instead of the platform running the current Node process.
+  const platformPath = host.platform === 'win32' ? win32 : posix;
   if (options.help) {
     host.log('npm run setup [-- --install-docker | --presets | --dry-run]\nnpm run doctor [-- --presets]\nnpm run runtime:start\nmacOS 默认使用 Colima + Docker CLI，无桌面窗口；Windows 推荐 WSL2 + Docker Engine，Linux 复用 Engine。不会安装/启动 Docker Desktop、接受许可条款、修改 WSL/安全策略或配置个人 API Key。'); return 0;
   }
@@ -116,7 +119,7 @@ export async function setup(options, host = defaultHost()) {
     try { return result.code === 0 && JSON.parse(result.output)?.['org.algomotion.runner'] === '1'; } catch { return false; }
   };
   if (options.check) {
-    const dependencies = host.exists(join(host.root, 'node_modules', 'tsx', 'dist', 'cli.mjs'));
+    const dependencies = host.exists(platformPath.join(host.root, 'node_modules', 'tsx', 'dist', 'cli.mjs'));
     host.log(`Node ${host.version}；项目依赖：${dependencies ? '已找到' : '缺失，请运行 npm run setup'}`);
     if (options.presets) return dependencies ? 0 : 2;
     const engine = await probe(), linux = engine.code === 0 && engine.output.trim() === 'linux';
@@ -144,8 +147,8 @@ export async function setup(options, host = defaultHost()) {
       const colima = () => resolveColimaBinary({ env, exists: host.exists });
       const preparePath = () => {
         // Colima invokes Docker/Lima by name internally, including immediately after brew install.
-        const directories = [colima(), connection.binary].filter(isAbsolute).map(dirname);
-        env.PATH = [...new Set([...directories, ...(env.PATH || '').split(':').filter(Boolean)])].join(':');
+        const directories = [colima(), connection.binary].filter(platformPath.isAbsolute).map(platformPath.dirname);
+        env.PATH = [...new Set([...directories, ...(env.PATH || '').split(platformPath.delimiter).filter(Boolean)])].join(platformPath.delimiter);
       };
       preparePath();
       let colimaReady = (await host.run(colima(), ['version'], { env })).code === 0;
@@ -183,7 +186,7 @@ export async function setup(options, host = defaultHost()) {
   }
   if (!options.presets) {
     host.log(`构建隔离镜像 ${image}（需要下载基础镜像，不调用模型 API）。`);
-    if ((await docker(['build', '-t', image, join(host.root, 'sandbox')], { inherit: true, timeout: 600_000 })).code !== 0 || !await inspect()) throw new Error('隔离镜像构建或标签检查失败，生成模式尚未就绪。');
+    if ((await docker(['build', '-t', image, platformPath.join(host.root, 'sandbox')], { inherit: true, timeout: 600_000 })).code !== 0 || !await inspect()) throw new Error('隔离镜像构建或标签检查失败，生成模式尚未就绪。');
   }
   if (!options['build-only']) {
     if (!options.presets && missing.length) host.log(`环境安装完成；生成前可打开网页“模型设置”，或在 .env 填写：${missing.join(', ')}。密钥不能由开源项目代为提供。`);
