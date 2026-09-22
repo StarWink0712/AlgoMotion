@@ -1,0 +1,37 @@
+.state-dp-scene { min-width: 0; }
+.state-dp-board { display: block; }
+.dp-input rect, .dp-register rect { fill: #fff; stroke: #cbd9df; stroke-width: 1.5; }
+.dp-input text, .dp-register text { fill: #304854; font-size: 14px; font-weight: 650; }
+.dp-input .scene-index, .dp-register .scene-index { font-size: 11px; font-weight: 450; }
+.dp-input.active rect, .dp-register.active rect { fill: #fff4df; stroke: #da9b2c; }
+.dp-input.selected rect, .dp-register.source rect, .dp-input.segment-0 rect { fill: #e4f5ec; stroke: #52a27b; }
+.dp-input.alternate rect, .dp-input.segment-1 rect { fill: #e9f1fc; stroke: #628cbc; }
+.dp-register.unknown rect { fill: #f6f8fa; stroke-dasharray: 4 3; }
+.dp-register.unknown text { fill: #879aa5; }
+.dp-focus { pointer-events: none; }
+.dp-focus rect { fill: none; stroke: #d29b38; stroke-width: 2; }
+.dp-transfer.candidate { opacity: .45; }
+.dp-transfer.chosen { color: #23896b; }
+.dp-witness-path { stroke: #71b89d; stroke-width: 9; fill: none; stroke-linejoin: round; }
+.dp-dependencies, .dp-choices, .dp-segments { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; min-width: 0; }
+.dp-dependency { display: flex; flex-direction: column; gap: 4px; padding: 9px 12px; border: 1px solid #dbe3e8; border-radius: 10px; background: #f7f9fb; font-size: 12px; overflow-wrap: anywhere; }
+.dp-dependency.chosen, .dp-choices .chosen { border-color: #9ecfba; background: #edf8f2; color: #267455; }
+.dp-dependency.blocked { border-style: dashed; color: #8c6870; background: #fcf5f5; }
+.dp-dependency small { color: inherit; opacity: .8; }
+.dp-choices > span { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid #dbe3e8; border-radius: 9px; font-size: 12px; }
+.dp-choices b { font-size: 15px; }
+.dp-witness { display: grid; gap: 8px; margin-top: 14px; padding: 12px; background: #f0f7f4; border-left: 3px solid #78b89e; border-radius: 6px; font-size: 12px; overflow-wrap: anywhere; }
+.dp-segments { align-items: center; font-size: 12px; }
+.dp-segments code { padding: 6px 10px; background: #f0f5f8; border-radius: 7px; overflow-wrap: anywhere; }
+.dp-segments small { color: #738895; }
+.dp-bands { display: grid; gap: 9px; padding: 12px 0 2px; }
+.dp-band { display: grid; grid-template-columns: 140px minmax(0, 1fr) 80px; align-items: center; gap: 8px; font-size: 12px; }
+.dp-band-track { position: relative; height: 9px; background: #edf1f5; border-radius: 5px; overflow: hidden; }
+.dp-band-track i { position: absolute; height: 100%; background: #74b49c; border-radius: 5px; }
+.dp-band:nth-child(2) i { background: #d4b05b; }
+.state-dp-scene .dp-axis text { font-size: 12px; fill: #486475; }
+.dp-alignment { display: grid; gap: 10px; margin-top: 16px; font-size: 12px; }
+.dp-alignment > div { display: flex; flex-wrap: wrap; gap: 7px; }
+.dp-alignment-column { display: grid; text-align: center; gap: 6px; min-width: 44px; padding: 8px; border-radius: 9px; background: #edf6f1; border: 1px solid #b7d7c5; }
+.dp-alignment-column b { font-size: 16px; }
+.dp-alignment-column.insert, .dp-alignment-column.delete, .dp-alignment-column.replace { background: #fff6e8; border-color: #e4c791; }

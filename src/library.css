@@ -1,0 +1,46 @@
+.library-launch { display: flex; align-items: center; justify-content: center; gap: 9px; width: 100%; padding: 11px; margin: 18px 0 3px; border: 1px solid #d9e4f5; border-radius: 8px; background: linear-gradient(120deg, #edf4ff, #f6f9fe); color: #42699f; font-size: 13px; }
+.library-modal { width: min(760px, calc(100% - 36px)); max-height: calc(100dvh - 40px); }
+.library-modal .modal-heading { margin-bottom: 18px; }
+.library-privacy { color: #74839a; font-size: 12px; line-height: 1.8; margin-block: 12px 18px; }
+.library-toolbar, .library-filters, .library-card-actions, .library-form-actions, .library-custom-category { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.library-filters { margin-top: 22px; }
+.library-filters .search-box { flex: 1; margin: 0; min-width: 160px; }
+.library-filters select, .library-custom-category > input { min-width: 0; padding: 11px; border: 1px solid var(--line); border-radius: 7px; background: #f8faff; color: #49638a; }
+.library-filters select { max-width: 180px; }
+.library-list-heading { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 11px; color: #8390a4; margin: 17px 0 12px; }
+.library-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.library-card { padding: 17px; border: 1px solid #e1e8f2; border-radius: 11px; background: linear-gradient(155deg, #fff, #f8fafe); }
+.library-card-heading { display: flex; align-items: flex-start; gap: 9px; }
+.library-card h3 { font-size: 15px; font-weight: 500; color: #344e73; line-height: 1.6; overflow-wrap: anywhere; min-width: 0; }
+.library-kind { flex-shrink: 0; margin-top: 2px; font-size: 10px; padding: 3px 6px; border-radius: 4px; background: #f3eee3; color: #97764c; }
+.library-kind.demo { background: #e7f0ff; color: #5278ad; }
+.library-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 12px; }
+.library-tags span { font-size: 11px; color: #6c7e99; padding: 4px 7px; background: #f0f4f9; border-radius: 4px; overflow-wrap: anywhere; }
+.library-date { color: #8a96a7; font-size: 10px; line-height: 1.6; margin: 12px 0; }
+.library-card-actions > .secondary-button { margin-right: auto; }
+.library-card-actions { gap: 4px; }
+.library-empty { grid-column: 1 / -1; padding: 35px 15px; text-align: center; color: #7790b3; }
+.library-empty h3 { font-size: 16px; font-weight: 500; margin: 16px 0 10px; }
+.library-empty p { font-size: 12px; line-height: 1.8; }
+.library-entry-form > .settings-field { margin: 18px 0; }
+.library-entry-form fieldset { border: 0; padding: 0; min-width: 0; }
+.library-entry-form legend { font-size: 13px; color: #456080; margin-bottom: 12px; }
+.library-entry-form legend span { font-size: 11px; color: #8995a8; margin-left: 10px; }
+.library-category-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.library-category-options label { display: flex; align-items: center; gap: 6px; padding: 7px 10px; border: 1px solid #e1e7f0; border-radius: 6px; font-size: 12px; color: #7b899e; cursor: pointer; overflow-wrap: anywhere; }
+.library-category-options label.selected { color: #426eae; background: #edf4ff; border-color: #bacfec; }
+.library-category-options input, .library-copy input { accent-color: #628bd0; }
+.library-custom-category { margin: 16px 0; }
+.library-custom-category > input { flex: 1; }
+.library-copy { font-size: 12px; color: #697d9a; display: flex; gap: 8px; }
+.library-form-actions { justify-content: flex-end; margin-top: 22px; }
+.library-delete { margin-top: 13px; padding-top: 12px; border-top: 1px solid var(--line); }
+.library-delete p { font-size: 12px; color: #956c50; line-height: 1.7; margin-bottom: 9px; overflow-wrap: anywhere; }
+.library-delete button { margin-right: 8px; }
+@media (max-width: 720px) {
+  .library-modal { width: calc(100% - 20px); max-height: calc(100dvh - 24px); }
+  .library-modal .modal-inner { padding: 22px 18px; }
+  .library-list { grid-template-columns: minmax(0, 1fr); }
+  .library-custom-category > input { width: 120px; }
+  .library-modal input:not([type=checkbox]), .library-modal select { font-size: 16px; }
+}

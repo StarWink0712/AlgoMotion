@@ -1,0 +1,220 @@
+import type { Problem } from './types';
+import { references } from './references';
+import { stackWindowProblems } from './presets/stack-window-catalog';
+import { linkedListProblems } from './presets/linked-list-catalog';
+import { treeProblems } from './presets/tree-catalog';
+import { advancedProblems } from './presets/advanced-catalog';
+import { explorationProblems } from './presets/exploration-catalog';
+import { orderingStructuresProblems } from './presets/ordering-structures-catalog';
+import { dpGreedyProblems } from './presets/dp-greedy-catalog';
+import { finalSixProblems } from './presets/final-six-catalog';
+
+export const problems: Problem[] = [
+  ...treeProblems,
+  ...advancedProblems,
+  ...explorationProblems,
+  ...orderingStructuresProblems,
+  ...dpGreedyProblems,
+  ...finalSixProblems,
+  ...linkedListProblems,
+  ...stackWindowProblems,
+  {
+    id: '3sum', number: 15, title: '三数之和', english: '3Sum', category: '双指针', difficulty: '中等', renderer: 'array',
+    summary: '找出数组中和为 0 的所有不重复三元组。每组使用三个不同位置，结果返回数值而不是下标。',
+    idea: '先排序，固定一个数，再让左右指针向中间寻找另外两个数。和太小移左侧，和太大移右侧，找到后跳过重复值。',
+    invariant: '固定第一个数后，左指针只右移，右指针只左移；重复起点和重复数值组合都跳过，结果不重复。',
+    time: 'O(n²)', space: 'O(n) 不含结果', sample: { nums: [-1, 0, 1, 2, -1, -4] },
+    inputHint: 'nums：0–16 个整数，范围 −10000–10000。每组三数升序，结果按数值顺序输出。', code: references['3sum'],
+  },
+  {
+    id: 'sort-colors', number: 75, title: '颜色分类', english: 'Sort Colors', category: '双指针', difficulty: '中等', renderer: 'array',
+    summary: '将只含 0、1、2 的数组按 0、1、2 的顺序排列，使用一次扫描完成分区。',
+    idea: 'low 左边放 0，high 右边放 2，mid 检查中间区域。换入一个 2 的位置需要继续检查，不能直接跳过。',
+    invariant: '[0, low) 全为 0，[low, mid) 全为 1，(high, n) 全为 2；[mid, high] 是尚未确定的部分。',
+    time: 'O(n)', space: 'O(1)', sample: { nums: [2, 0, 2, 1, 1, 0] },
+    inputHint: 'nums：0–24 个整数，只能为 0、1、2。相同值不要求保持原相对顺序。', code: references['sort-colors'],
+  },
+  {
+    id: 'rotate-array', number: 189, title: '轮转数组', english: 'Rotate Array', category: '数组', difficulty: '中等', renderer: 'array',
+    summary: '将数组向右轮转 k 位，尾部元素移动到前面。空数组保持不变，k 可以大于数组长度。',
+    idea: '先反转整个数组，再分别反转前 k 段和剩余部分，恢复两段各自的内部顺序。',
+    invariant: 'k 先对长度取余；三次反转结束后，原下标 i 的元素位于 (i + k) mod n，元素不丢失。',
+    time: 'O(n)', space: 'O(1)', sample: { nums: [1, 2, 3, 4, 5, 6, 7], k: 3 },
+    inputHint: 'nums：0–24 个整数，范围 −10000–10000；k：0–1000000000 的整数，方向为向右。', code: references['rotate-array'],
+  },
+  {
+    id: 'next-permutation', number: 31, title: '下一个排列', english: 'Next Permutation', category: '数组', difficulty: '中等', renderer: 'array',
+    summary: '把数组变成使用同一组元素的下一个字典序排列；如果已是最大排列，就回到最小升序排列。',
+    idea: '从右找第一个可以增大的位置，换上后缀里最小的更大数字，再反转后缀，使余下部分尽可能小。',
+    invariant: '寻找转折时右侧后缀非递增。只增大最靠右的可增位置，然后把后缀排到最小，就不会跳过更近的排列。',
+    time: 'O(n)', space: 'O(1)', sample: { nums: [1, 3, 5, 4, 2] },
+    inputHint: 'nums：0–24 个整数，范围 −10000–10000，可重复。空数组和单元素数组保持不变。', code: references['next-permutation'],
+  },
+  {
+    id: 'merge-intervals', number: 56, title: '合并区间', english: 'Merge Intervals', category: '数组', difficulty: '中等', renderer: 'intervals',
+    summary: '合并所有相交的闭区间，返回按起点升序排列的互不相交区间。端点相接也合并。',
+    idea: '按起点排序后，新区间只可能与当前结果的最后一段相交；相交就延长终点，不相交就新开一段。',
+    invariant: '结果按起点排序且互不相交，覆盖范围等于已处理的输入。被包含的区间不会错误缩短已有终点。',
+    time: 'O(n log n)', space: 'O(n)', sample: { intervals: [[8, 10], [1, 3], [2, 6], [15, 18]] },
+    inputHint: 'intervals：0–12 个 [start, end]；端点是 −100–100 的整数，start ≤ end，允许单点区间。', code: references['merge-intervals'],
+  },
+  {
+    id: 'group-anagrams', number: 49, title: '字母异位词分组', english: 'Group Anagrams', category: '哈希表', difficulty: '中等', renderer: 'array-hash',
+    summary: '把使用相同字母、且每个字母出现次数也相同的字符串分为一组，保留重复字符串。',
+    idea: '把每个单词的字母排序，得到与字母排列顺序无关的特征。特征相同的单词进入同一组。',
+    invariant: '处理完前 i 个字符串后，每个已处理字符串恰好属于其排序特征对应的组。组按首次出现排序，组内保留输入顺序。',
+    time: 'O(n × k log k)', space: 'O(n × k)', sample: { strs: ['eat', 'tea', 'tan', 'ate', 'nat', 'bat'] },
+    inputHint: 'strs：0–12 个仅含小写英文字母的字符串，每项最多 8 个字符；允许空串。', code: references['group-anagrams'],
+  },
+  {
+    id: 'longest-consecutive-sequence', number: 128, title: '最长连续序列', english: 'Longest Consecutive Sequence', category: '哈希表', difficulty: '中等', renderer: 'array',
+    summary: '在无序整数数组中寻找数值连续的最长序列，返回长度。元素不要求在原数组中相邻，重复值只计一次。',
+    idea: '先用集合去重。只有当前数的前一个整数不存在时，才从它出发逐个寻找后继，这样每段只扫描一次。',
+    invariant: '只从没有前驱的数字开始计数；链上的相邻数值相差 1，重复元素不延长长度。',
+    time: 'O(n) 平均', space: 'O(n)', sample: { nums: [100, 4, 200, 1, 3, 2] },
+    inputHint: 'nums：0–24 个整数，范围 −10000–10000；空数组返回 0。', code: references['longest-consecutive-sequence'],
+  },
+  {
+    id: 'product-of-array-except-self', number: 238, title: '除自身以外数组的乘积', english: 'Product of Array Except Self', category: '数组', difficulty: '中等', renderer: 'array-hash',
+    summary: '返回每个位置以外所有元素的乘积，不使用除法。支持负数和零；单元素数组返回 [1]，空数组返回 []。',
+    idea: '从左向右保存当前位置之前的乘积，再从右向左乘上当前位置之后的乘积，两侧恰好绕开自己。',
+    invariant: '正向写入时 left 不含 nums[i]；反向合并时 right 也不含 nums[i]。空乘积恒为 1，因此无需特殊处理零。',
+    time: 'O(n)', space: 'O(1) 不含输出', sample: { nums: [1, 2, 3, 4] },
+    inputHint: 'nums：0–12 个 −5–5 的整数，保证本演示及三语言中间乘积不会溢出。', code: references['product-of-array-except-self'],
+  },
+  {
+    id: 'subarray-sum-equals-k', number: 560, title: '和为 K 的子数组', english: 'Subarray Sum Equals K', category: '哈希表', difficulty: '中等', renderer: 'array-hash',
+    summary: '统计和等于 k 的连续非空子数组数量。不同起止下标分别计数，允许重叠，数组可以包含负数和零。',
+    idea: '当前前缀和为 prefix，只需查找之前出现过多少次 prefix − k。每一次出现，都对应一个以当前元素结尾的有效区间。',
+    invariant: '查询时计数表只包含当前前缀之前的前缀；先查询再记录当前前缀，才能排除空区间。',
+    time: 'O(n) 平均', space: 'O(n)', sample: { nums: [1, -1, 1, 1, -1], k: 1 },
+    inputHint: 'nums：0–24 个整数；k：整数；范围 −10000–10000。空数组返回 0。', code: references['subarray-sum-equals-k'],
+  },
+  {
+    id: 'search-insert-position', number: 35, title: '搜索插入位置', english: 'Search Insert Position', category: '二分查找', difficulty: '简单', renderer: 'array',
+    summary: '在严格升序数组中寻找 target；存在时返回下标，否则返回保持升序的插入位置。空数组返回 0。',
+    idea: '寻找第一个不小于 target 的位置。每次比较中点，将待查区间缩小一半；最后左右边界相遇在答案处。',
+    invariant: '使用 [left, right)；left 左侧全部小于 target，right 及其右侧全部不小于 target。答案可以等于数组长度。',
+    time: 'O(log n)', space: 'O(1)', sample: { nums: [1, 3, 5, 6], target: 2 },
+    inputHint: 'nums：0–24 个严格递增整数；target：整数。数值范围 −10000–10000。', code: references['search-insert-position'],
+  },
+  {
+    id: 'find-first-and-last-position-of-element-in-sorted-array', number: 34, title: '在排序数组中查找元素的第一个和最后一个位置', english: 'Find First and Last Position', category: '二分查找', difficulty: '中等', renderer: 'array',
+    summary: '在非递减数组中返回 target 的首尾下标；目标不存在时返回 [-1, -1]。',
+    idea: '做两次边界二分：先找首个 ≥ target 的位置，再找首个 > target 的位置减一，重复元素也不会漏掉。',
+    invariant: '每轮维护左闭右开的区间。第二轮排除等于 target 的中点，因而找到的是整个相等区间的右侧边界。',
+    time: 'O(log n)', space: 'O(1)', sample: { nums: [5, 7, 7, 8, 8, 10], target: 8 },
+    inputHint: 'nums：0–24 个非递减整数，可重复；target：整数。数值范围 −10000–10000。', code: references['find-first-and-last-position-of-element-in-sorted-array'],
+  },
+  {
+    id: 'search-in-rotated-sorted-array', number: 33, title: '搜索旋转排序数组', english: 'Search in Rotated Sorted Array', category: '二分查找', difficulty: '中等', renderer: 'array',
+    summary: '严格升序数组经过一次旋转，在其中查找 target 并返回下标；不存在返回 -1。',
+    idea: '中点将区间分成两半，其中至少一半有序。判断目标是否落在有序半段的值域内，再决定保留哪一半。',
+    invariant: '如果目标存在，它始终在闭区间 [left, right] 中。元素互不重复，才能用端点判断哪半边有序。',
+    time: 'O(log n)', space: 'O(1)', sample: { nums: [4, 5, 6, 7, 0, 1, 2], target: 0 },
+    inputHint: 'nums：0–24 个互不相同的整数，必须是升序数组的旋转；target：整数。范围 −10000–10000。', code: references['search-in-rotated-sorted-array'],
+  },
+  {
+    id: 'best-time-to-buy-and-sell-stock', number: 121, title: '买卖股票的最佳时机', english: 'Best Time to Buy and Sell Stock', category: '贪心', difficulty: '简单', renderer: 'array',
+    summary: '每天一个股价，最多先买入再在未来某天卖出一次，返回最大利润。可以不交易，空数组返回 0。',
+    idea: '把今天当卖出日，只需记住之前的最低买入价。先尝试卖出，再更新最低价，保证买入日在卖出日之前。',
+    invariant: '计算第 day 天的利润时，buy 是之前日期的最低价位置；best 是已经检查过的最大非负利润。',
+    time: 'O(n)', space: 'O(1)', sample: { prices: [7, 1, 5, 3, 6, 4] },
+    inputHint: 'prices：0–24 个非负整数，每项不超过 10000。只能交易一次，日期从 0 开始。', code: references['best-time-to-buy-and-sell-stock'],
+  },
+  {
+    id: 'jump-game', number: 55, title: '跳跃游戏', english: 'Jump Game', category: '贪心', difficulty: '中等', renderer: 'array',
+    summary: '从下标 0 出发，每个非负整数表示该位置最多能向右跳几步，判断是否可以到达最后一个位置。',
+    idea: '维护当前最远可达下标。只有已经可达的位置，才有资格把边界继续向右扩展；不需要枚举每一种跳法。',
+    invariant: '[0, farthest] 内的位置均可达。若 i 超过 farthest，后面再大的数字也不能跨过这个断点。',
+    time: 'O(n)', space: 'O(1)', sample: { nums: [2, 3, 1, 1, 4] },
+    inputHint: 'nums：1–24 个非负整数，每项不超过 10000。单元素数组已在终点，返回 true。', code: references['jump-game'],
+  },
+  {
+    id: 'two-sum', number: 1, title: '两数之和', english: 'Two Sum', category: '哈希表', difficulty: '简单', renderer: 'array',
+    summary: '在整数数组中找到两个不同位置的数，使它们的和等于 target，返回这两个下标。没有答案时返回空数组。',
+    idea: '遍历到一个数时，先问哈希表：它的另一半来过吗？如果没有，就记下当前数与下标。每个元素只需访问一次。',
+    invariant: '检查 nums[i] 时，seen 只包含下标小于 i 的元素，所以不会重复使用同一位置。',
+    time: 'O(n)', space: 'O(n)', sample: { nums: [2, 7, 11, 15], target: 9 },
+    inputHint: 'nums：0–24 个整数；target：整数。多解时返回首先找到的一组。',
+    code: references['two-sum'],
+  },
+  {
+    id: 'move-zeroes', number: 283, title: '移动零', english: 'Move Zeroes', category: '双指针', difficulty: '简单', renderer: 'array',
+    summary: '把数组中的零移到末尾，保留所有非零元素原本的相对顺序。',
+    idea: 'read 寻找非零元素，write 指向下一个待填的位置。遇到非零数就交换，已整理好的前缀逐渐增长。',
+    invariant: 'write 左侧始终是按原顺序排列的非零元素；write 到 read 之间为零。',
+    time: 'O(n)', space: 'O(1)', sample: { nums: [0, 1, 0, 3, 12] }, inputHint: 'nums：0–24 个整数。',
+    code: references['move-zeroes'],
+  },
+  {
+    id: 'container-with-most-water', number: 11, title: '盛最多水的容器', english: 'Container With Most Water', category: '双指针', difficulty: '中等', renderer: 'bars',
+    summary: '数组中的每个数代表一条竖线的高度。选择两条线，与横轴一起围出面积最大的容器。',
+    idea: '从最宽的两端开始，计算面积后移动较短的一端。宽度必定减小，只有更高的短边才可能得到更大面积。',
+    invariant: '移动短边不会漏掉更优解：固定当前短边、把长边向内移动，只会减小或保持水位并缩短宽度。',
+    time: 'O(n)', space: 'O(1)', sample: { heights: [1, 8, 6, 2, 5, 4, 8, 3, 7] }, inputHint: 'heights：2–24 个非负整数。',
+    code: references['container-with-most-water'],
+  },
+  {
+    id: 'longest-substring-without-repeating-characters', number: 3, title: '无重复字符的最长子串', english: 'Longest Unique Substring', category: '滑动窗口', difficulty: '中等', renderer: 'window',
+    summary: '找到字符串中不包含重复字符的最长连续片段，返回它的长度。按 Unicode 码点计数。',
+    idea: 'right 扩张窗口。如果当前字符在窗口内出现过，left 跳到它上次出现位置的下一位。',
+    invariant: '更新 left 后，[left, right] 中的字符始终互不重复，而且 left 永远不会向左退。',
+    time: 'O(n)', space: 'O(n)', sample: { s: 'abcabcbb' }, inputHint: 's：最多 24 个 Unicode 码点，支持空字符串。',
+    code: references['longest-substring-without-repeating-characters'],
+  },
+  {
+    id: 'maximum-subarray', number: 53, title: '最大子数组和', english: 'Maximum Subarray', category: '动态规划', difficulty: '中等', renderer: 'array',
+    summary: '在非空整数数组中，找到和最大的连续非空子数组，返回这个最大和。',
+    idea: '每走到一个数，只需决定：延续前面的子数组，还是从自己重新开始？记录以当前位置结尾的最大和，再维护全局最大值。',
+    invariant: 'ending 是以 i 为终点的最大连续和；best 是已经处理过的前缀中的全局最优值。',
+    time: 'O(n)', space: 'O(1)', sample: { nums: [-2, 1, -3, 4, -1, 2, 1, -5, 4] }, inputHint: 'nums：1–24 个整数。',
+    code: references['maximum-subarray'],
+  },
+  {
+    id: 'reverse-linked-list', number: 206, title: '反转链表', english: 'Reverse Linked List', category: '链表', difficulty: '简单', renderer: 'linked-list',
+    summary: '反转单向链表的所有 next 指针，返回新的头节点。输入用数组表示链表值。',
+    idea: '每次先保存 next，再把当前节点指向 prev，最后让 prev 和 curr 前进一步。节点不换位置，真正改变的是连接方向。',
+    invariant: 'prev 指向已反转的前缀；curr 指向尚未处理的后缀。保存 next 避免丢失后续节点。',
+    time: 'O(n)', space: 'O(1)', sample: { values: [1, 2, 3, 4, 5] }, inputHint: 'values：0–12 个整数；重复值使用不同节点 ID 区分。',
+    code: references['reverse-linked-list'],
+  },
+  {
+    id: 'binary-tree-level-order-traversal', number: 102, title: '二叉树层序遍历', english: 'Binary Tree Level Order', category: '二叉树', difficulty: '中等', renderer: 'tree',
+    summary: '按层从左到右访问二叉树，返回每一层的节点值。输入使用层序序列，null 代表缺失的孩子。',
+    idea: '用队列维护下一批要访问的节点。每层开始时记下队列长度，恰好处理这些节点，期间把孩子加入队列尾部。',
+    invariant: '每层开始时，队列里恰好是该层全部节点，而且顺序从左到右。',
+    time: 'O(n)', space: 'O(n)', sample: { tree: [3, 9, 20, null, null, 15, 7] }, inputHint: 'tree：最多 15 个层序项，最多 5 层；null 表示空节点。',
+    code: references['binary-tree-level-order-traversal'],
+  },
+  {
+    id: 'climbing-stairs', number: 70, title: '爬楼梯', english: 'Climbing Stairs', category: '动态规划', difficulty: '简单', renderer: 'dp',
+    summary: '每次可以爬 1 级或 2 级台阶，到达第 n 级共有多少种不同走法？约定到达第 0 级有 1 种空走法。',
+    idea: '到达第 i 级的最后一步，只能来自 i−1 或 i−2。两种情况互不重叠，因此把方法数相加。',
+    invariant: '填充 dp[i] 前，dp[0..i−1] 已正确记录对应高度的方法数。',
+    time: 'O(n)', space: 'O(n)', sample: { n: 7 }, inputHint: 'n：0–20 的整数；展示使用 DP 数组，而非空间优化版本。',
+    code: references['climbing-stairs'],
+  },
+  {
+    id: 'coin-change', number: 322, title: '零钱兑换', english: 'Coin Change', category: '动态规划', difficulty: '中等', renderer: 'dp',
+    summary: '给定不同面额的硬币和总金额，求凑出该金额所需的最少硬币数。每种硬币无限使用，无法凑出时返回 −1。',
+    idea: 'dp[a] 表示金额 a 的最少硬币数。尝试最后一枚使用哪种硬币，用 dp[a−coin]+1 更新当前状态。',
+    invariant: '处理金额 a 时，比 a 小的所有金额已经求得最优解。∞ 表示目前不可达。',
+    time: 'O(amount × k)', space: 'O(amount)', sample: { coins: [1, 2, 5], amount: 11 }, inputHint: 'coins：1–6 个不同正整数；amount：0–24 的整数。',
+    code: references['coin-change'],
+  },
+  {
+    id: 'longest-increasing-subsequence', number: 300, title: '最长递增子序列', english: 'Longest Increasing Subsequence', category: '动态规划', difficulty: '中等', renderer: 'dp',
+    summary: '从数组中选出一个严格递增的子序列，返回它的最大长度。子序列不要求连续。',
+    idea: 'dp[i] 表示以 nums[i] 结尾的最长递增子序列长度。向前寻找更小的数，尝试接在它们对应的子序列后面。',
+    invariant: '遍历 i 时，所有 j<i 的 dp[j] 都是正确的。相等的数不能延长严格递增子序列。',
+    time: 'O(n²)', space: 'O(n)', sample: { nums: [10, 9, 2, 5, 3, 7, 101, 18] }, inputHint: 'nums：0–20 个整数；本演示使用更直观的 O(n²) DP。',
+    code: references['longest-increasing-subsequence'],
+  },
+];
+
+export function getProblem(id: string): Problem {
+  const problem = problems.find((p) => p.id === id);
+  if (!problem) throw new Error('不支持的题目模板。');
+  return problem;
+}

@@ -1,0 +1,13 @@
+.essentials-scene, .xor-panel, .essential-pending { min-width: 0; }
+.essential-summary { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 14px; background: #edf6f3; border: 1px solid #bdd7cb; border-radius: 12px; margin-top: 12px; font-size: 13px; overflow-wrap: anywhere; }
+.essential-summary b, .essential-summary code { color: #286d53; }
+.essential-summary small { color: #6a7b80; }
+.xor-panel { margin-top: 12px; padding: 12px; background: #f7f9fb; border-radius: 12px; }
+.xor-board text, .pending-board text { fill: #3a5866; font-size: 13px; }
+.xor-bit rect { fill: #f0f3f7; stroke: #d2dce4; }
+.xor-bit.bit-1 rect { fill: #dfefe7; stroke: #88b99f; }
+.xor-bit text { font-weight: 650; }
+.essential-pending { display: grid; gap: 9px; padding: 12px 0; font-size: 12px; }
+.pending-token rect { fill: #e9f3ed; stroke: #a8cdb8; }
+.essential-pair { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: #997342; }
+.essential-pair code { padding: 7px 12px; border: 1px dashed #c6ae8d; border-radius: 8px; background: #faf5ee; }

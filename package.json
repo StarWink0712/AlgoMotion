@@ -1,0 +1,55 @@
+{
+  "name": "algomotion",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A trace-driven algorithm playground with optional LLM-assisted problem matching.",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "predev": "node scripts/start-runtime.mjs",
+    "dev": "concurrently -k -n api,web \"tsx watch server/index.ts\" \"vite --host 127.0.0.1\"",
+    "build": "tsc -b && vite build",
+    "prestart": "node scripts/start-runtime.mjs",
+    "start": "tsx server/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "setup": "node scripts/setup.mjs",
+    "doctor": "node scripts/setup.mjs --check",
+    "runtime:start": "node scripts/setup.mjs --runtime-only",
+    "sandbox:build": "node scripts/setup.mjs --build-only",
+    "test:sandbox": "tsx tests/sandbox-integration.ts",
+    "test:live": "tsx tests/generation-live.ts",
+    "test:live:ui": "tsx tests/live-ui.ts",
+    "test:e2e": "playwright test",
+    "test:references": "tsx tests/reference-runtimes.ts",
+    "check": "tsc -b && vitest run",
+    "release:check": "node scripts/release-audit.mjs"
+  },
+  "dependencies": {
+    "@fontsource/dm-sans": "^5.2.6",
+    "@fontsource/ibm-plex-mono": "^5.2.6",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "helmet": "^8.1.0",
+    "lucide-react": "^0.468.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tsx": "^4.20.5",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.2",
+    "concurrently": "^9.2.1",
+    "typescript": "~5.9.2",
+    "vite": "^7.1.4",
+    "vitest": "^5.0.1"
+  }
+}
